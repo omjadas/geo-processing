@@ -1,6 +1,7 @@
 import json
 import sys
 from jsonReader import JSONReader
+from mpi4py import MPI
 
 
 def main():
