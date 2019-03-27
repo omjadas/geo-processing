@@ -5,7 +5,12 @@ from mpi4py import MPI
 
 
 def main():
-    file = JSONReader("tinyTwitter(3).json")
+    comm = MPI.COMM_WORLD
+    rank = comm.Get_rank()
+    size = comm.Get_size()
+
+    file = JSONReader(sys.argv[1], rank, size)
+
     file.close()
 
 
