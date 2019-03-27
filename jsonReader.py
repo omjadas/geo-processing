@@ -6,8 +6,17 @@ class JSONReader():
         self.f = open(fname, "r", encoding="utf-8")
         next(self.f)
 
+    def __iter__(self):
+        return self
+
     def __next__(self):
-        return json.loads(next(self.f)[:-2])
+        line = next(self.f)
+        if line[-2] == ",":
+            line = line[:-2]
+        if line == "]}\n":
+            raise StopIteration
+        else:
+            return json.loads(line)
 
     def close(self):
         self.f.close()
