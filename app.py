@@ -19,16 +19,20 @@ def main():
     file = JSONReader(sys.argv[1], rank, size)
 
     grids = defaultdict(int)
+    hashtags = defaultdict(lambda: defaultdict(int))
 
     for tweet in file:
         grid = get_grid(tweet, grid_data)
         if grid:
             grids[grid] += 1
+            for hashtag in tweet["doc"]["entities"]["hashtags"]:
+                hashtags[grid][hashtag["text"].lower()] += 1
 
-    data = comm.gather(grids, root=0)
+    grid_data = comm.gather(grids, root=0)
+    hashtag_data = comm.gather(hashtags, root=0)
     if rank == 0:
         print(
-            reduce(lambda x, y: x.update(y) or x, (Counter(d) for d in data)))
+            reduce(lambda x, y: x.update(y) or x, (Counter(d) for d in grid_data)))
 
     file.close()
 
@@ -43,7 +47,7 @@ def get_grid(tweet, grids):
                     y > grid["properties"]["ymin"] and \
                     y <= grid["properties"]["ymax"]:
                 return grid["properties"]["id"]
-        except:
+        except BaseException:
             pass
     return ""
 
