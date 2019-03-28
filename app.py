@@ -36,8 +36,8 @@ def main():
 def get_grid(tweet, grids):
     for grid in grids["features"]:
         try:
-            x = tweet["doc"]["geo"]["coordinates"][1]
-            y = tweet["doc"]["geo"]["coordinates"][0]
+            x = tweet["doc"]["coordinates"]["coordinates"][0]
+            y = tweet["doc"]["coordinates"]["coordinates"][1]
             if x > grid["properties"]["xmin"] and \
                     x <= grid["properties"]["xmax"] and \
                     y > grid["properties"]["ymin"] and \
