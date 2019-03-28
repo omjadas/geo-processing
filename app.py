@@ -2,7 +2,8 @@ import json
 import sys
 from jsonReader import JSONReader
 from mpi4py import MPI
-from collections import defaultdict
+from collections import defaultdict, Counter
+from functools import reduce
 
 GRID = "melbGrid(1).json"
 
@@ -17,17 +18,17 @@ def main():
 
     file = JSONReader(sys.argv[1], rank, size)
 
-    d = defaultdict(int)
+    grids = defaultdict(int)
 
     for tweet in file:
         grid = get_grid(tweet, grid_data)
         if grid:
-            d[grid] += 1
+            grids[grid] += 1
 
+    data = comm.gather(grids, root=0)
     if rank == 0:
-        pass
-    else:
-        pass
+        print(
+            reduce(lambda x, y: x.update(y) or x, (Counter(d) for d in data)))
 
     file.close()
 
@@ -36,8 +37,10 @@ def get_grid(tweet, grids):
     for grid in grids["features"]:
         x = tweet["value"]["geometry"]["coordinates"][0]
         y = tweet["value"]["geometry"]["coordinates"][1]
-        if x > grid["properties"]["xmin"] and x <= grid["properties"][
-                "xmax"] and y > grid["properties"]["ymin"] and y <= grid["properties"]["ymax"]:
+        if x > grid["properties"]["xmin"] and \
+                x <= grid["properties"]["xmax"] and \
+                y > grid["properties"]["ymin"] and \
+                y <= grid["properties"]["ymax"]:
             return grid["properties"]["id"]
     return ""
 
