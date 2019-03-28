@@ -35,13 +35,16 @@ def main():
 
 def get_grid(tweet, grids):
     for grid in grids["features"]:
-        x = tweet["value"]["geometry"]["coordinates"][0]
-        y = tweet["value"]["geometry"]["coordinates"][1]
-        if x > grid["properties"]["xmin"] and \
-                x <= grid["properties"]["xmax"] and \
-                y > grid["properties"]["ymin"] and \
-                y <= grid["properties"]["ymax"]:
-            return grid["properties"]["id"]
+        try:
+            x = tweet["doc"]["geo"]["coordinates"][1]
+            y = tweet["doc"]["geo"]["coordinates"][0]
+            if x > grid["properties"]["xmin"] and \
+                    x <= grid["properties"]["xmax"] and \
+                    y > grid["properties"]["ymin"] and \
+                    y <= grid["properties"]["ymax"]:
+                return grid["properties"]["id"]
+        except:
+            pass
     return ""
 
 
