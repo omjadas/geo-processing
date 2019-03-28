@@ -1,4 +1,0 @@
-defaultdict(<class 'int'>, {'C2': 973, 'D3': 70, 'C3': 680})
-defaultdict(<class 'int'>, {'C2': 970, 'D3': 71, 'C3': 684})
-defaultdict(<class 'int'>, {'C2': 972, 'D3': 71, 'C3': 682})
-defaultdict(<class 'int'>, {'C2': 973, 'D3': 69, 'C3': 683})
