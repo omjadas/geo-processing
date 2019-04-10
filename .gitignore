@@ -106,3 +106,4 @@ venv.bak/
 .vscode
 *.json
 out.txt
+*.out
