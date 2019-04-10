@@ -6,4 +6,4 @@
 
 module load Python/3.6.4-intel-2017.u2
 
-time mpiexec -n 8 python3 app.py smallTwitter.json
+time mpiexec -n 8 python3 app.py smallTwitter.json melbGrid.json
