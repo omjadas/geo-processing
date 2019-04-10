@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --nodes=1
-#SBATCH --ntasks=8
+#SBATCH --ntasks=1
 #SBATCH --time=0-12:00:00
 #SBATCH --partition=physical
 
