@@ -1,4 +1,5 @@
 import json
+import re
 import sys
 from jsonReader import JSONReader
 from mpi4py import MPI
@@ -25,8 +26,8 @@ def main():
         grid = get_grid(tweet, grid_data)
         if grid:
             grids[grid] += 1
-            for hashtag in tweet["doc"]["entities"]["hashtags"]:
-                hashtags[grid][hashtag["text"].lower()] += 1
+            for hashtag in get_hashtags(tweet["doc"]["text"]):
+                hashtags[grid][hashtag.lower()] += 1
 
     grids = dict(grids)
     hashtags = dict(hashtags)
@@ -47,10 +48,14 @@ def main():
                 for hashtag in h[grid]:
                     new_dict[grid][hashtag] += h[grid][hashtag]
         for grid in total_tweets.most_common():
-            print("{}: {}".format(grid[0], new_dict[grid[0]].most_common(5)))
+            print("{}: {}".format(grid[0], new_dict[grid[0]].most_common(5)).encode("utf-8"))
         # print("{}".format(reduce(lambda x, y: x.update(y) or x, {h: Counter(hashtags[h]) for h in hashtags})).encode("utf-8"))
 
     file.close()
+
+
+def get_hashtags(tweet):
+    return re.findall(" #([^ ]*) ", tweet)
 
 
 def get_grid(tweet, grids):
