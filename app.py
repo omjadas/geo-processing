@@ -7,7 +7,7 @@ from collections import defaultdict, Counter
 from functools import reduce
 from itertools import takewhile
 
-GRID = "melbGrid(1).json"
+GRID = sys.argv[2]
 
 
 def main():
