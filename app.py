@@ -78,6 +78,17 @@ def get_grid(tweet, grids):
                 return grid["properties"]["id"]
         except BaseException:
             pass
+    for grid in grids["features"]:
+        try:
+            x = tweet["doc"]["coordinates"]["coordinates"][0]
+            y = tweet["doc"]["coordinates"]["coordinates"][1]
+            if x >= grid["properties"]["xmin"] and \
+                    x <= grid["properties"]["xmax"] and \
+                    y >= grid["properties"]["ymin"] and \
+                    y <= grid["properties"]["ymax"]:
+                return grid["properties"]["id"]
+        except BaseException:
+            pass
     return ""
 
 
