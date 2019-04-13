@@ -58,7 +58,10 @@ def main():
 def most_common(counter, n):
     data = counter.most_common()
     counts = set(hashtag[1] for hashtag in counter.most_common())
-    val = sorted(counts, reverse = True)[n - 1]
+    try:
+        val = sorted(counts, reverse = True)[n - 1]
+    except IndexError:
+        val = sorted(counts, reverse = True)[-1]
     return list(takewhile(lambda x: x[1] >= val, data))
 
 
