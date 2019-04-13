@@ -28,7 +28,9 @@ def main():
         if grid:
             grids[grid] += 1
             for hashtag in get_hashtags(tweet["doc"]["text"]):
-                hashtags[grid][hashtag.lower()] += 1
+                hashtag = hashtag.lower().encode("ascii", "ignore").decode("utf-8")
+                if hashtag:
+                    hashtags[grid][hashtag.lower().encode("ascii", "ignore").decode("utf-8")] += 1
 
     grids = dict(grids)
     hashtags = dict(hashtags)
