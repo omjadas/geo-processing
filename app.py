@@ -55,9 +55,10 @@ def main():
     file.close()
 
 
-def most_common(dct, n):
-    data = dct.most_common()
-    val = data[n - 1][1]
+def most_common(counter, n):
+    data = counter.most_common()
+    counts = set(hashtag[1] for hashtag in counter.most_common())
+    val = sorted(counts, reverse = True)[n - 1]
     return list(takewhile(lambda x: x[1] >= val, data))
 
 
