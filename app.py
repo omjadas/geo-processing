@@ -51,7 +51,6 @@ def main():
         for grid in total_tweets.most_common():
             print("{}: {}".format(grid[0], most_common(
                 new_dict[grid[0]], 5)).encode("utf-8"))
-        # print("{}".format(reduce(lambda x, y: x.update(y) or x, {h: Counter(hashtags[h]) for h in hashtags})).encode("utf-8"))
 
     file.close()
 
